@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <!--  Define the storage location of the log files. (勿在LogBack里面使用相对路径)                                                                        -->
+    <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <property name="LOG_LEVEL" value="DEBUG"/>
+    <property name="LOG_HOME" value="D://logs" />
+    <property name="PROJECT_NAME" value="${PROJECT_NAME}"/>
+    <property name="EMAIL_ACTIVE" value="false"/>
+    <property name="PROFILE_ENV" value="dev"/>
+    <property name="ONLY_SQL" value="false"/>
+    <property name="LOG_MAIL_SMTP_HOST" value="mail.udfex.com"/>
+    <property name="LOG_MAIL_FROM" value="robot@udfex.com"/>
+    <property name="LOG_MAIL_TO" value="system_alert@udfex.com"/>
+    <property name="LOG_MAIL_USERNAME" value="robot@udfex.com"/>
+    <property name="LOG_MAIL_PASSWORD" value="rbt35816922"/>
+
+    <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <!--  Console output                                                                                                        -->
+    <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <appender name="FILE-INFO"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/${PROJECT_NAME}/%d{yyyyMM}/${PROJECT_NAME}.info.%d{yyyyMMdd}.log</FileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>
+        </layout>
+        <!--  File Max Size -->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="FILE-ERROR"  class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 【begin 开发阶段配置】 -->
+            <FileNamePattern>${LOG_HOME}/${PROJECT_NAME}/%d{yyyyMM}/${PROJECT_NAME}.error.%d{yyyyMMdd}.log</FileNamePattern>
+            <!-- 【end 开发阶段配置】 -->
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>
+        </layout>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
+        <smtpHost>${LOG_MAIL_SMTP_HOST}</smtpHost>
+        <SSL>true</SSL>
+        <to>${LOG_MAIL_TO}</to>
+        <from>${LOG_MAIL_FROM}</from>
+        <username>${LOG_MAIL_USERNAME}</username>
+        <password>${LOG_MAIL_PASSWORD}</password>
+        <subject>【警告：[${PROFILE_ENV} 环境]-${PROJECT_NAME}系统异常   %d{yyyy-MM-dd HH:mm:ss}】: %logger{50}</subject>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %X{ip} %logger{50} - %msg%n</pattern>
+        </layout>
+    </appender>
+
+    <if condition='property("EMAIL_ACTIVE").contains("true")'>
+        <then>
+            <root level="${LOG_LEVEL}">
+                <appender-ref ref="STDOUT" />
+                <appender-ref ref="FILE-ERROR" />
+                <appender-ref ref="FILE-INFO" />
+                <appender-ref ref="EMAIL" />
+            </root>
+        </then>
+        <else>
+            <root level="${LOG_LEVEL}">
+                <appender-ref ref="STDOUT" />
+                <appender-ref ref="FILE-ERROR" />
+                <appender-ref ref="FILE-INFO" />
+            </root>
+        </else>
+    </if>
+
+    <if condition='property("ONLY_SQL").contains("true")'>
+        <then>
+            <!-- 如需详细信息，请注释以下代码 -->
+            <logger name="org.springframework" level="ERROR"></logger>
+            <logger name="org.mybatis" level="ERROR"></logger>
+            <logger name="org.apache" level="ERROR"></logger>
+        </then>
+    </if>
+
+</configuration>
