@@ -9,7 +9,7 @@
 		<!--	扫描实体类	-->
 		<property name="typeAliasesPackage" value="
 			com.xmomen.framework.mybatis.model,
-			com.xmomen.test.mybatis.model
+			com.xmomen.demo.entity.model
 			" />
 		<!--	mybatis-config文件路径	-->
 		<property name="configLocation" value="classpath:config/mybatis-config.xml" />
@@ -29,7 +29,7 @@
 		<!--	扫描基础包路径（多基础包路径用;分隔）	-->
 		<property name="basePackage" value="
 			com.xmomen.framework.mybatis.mapper;
-			com.xmomen.test.mybatis.mapper" />
+			com.xmomen.demo.entity.mapper" />
 		<property name="markerInterface" value="com.xmomen.framework.mybatis.mapper.MybatisMapper" />
 		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"/>
 	</bean>
