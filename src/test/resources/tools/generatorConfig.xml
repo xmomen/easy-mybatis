@@ -3,19 +3,21 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <classPathEntry
-            location="E:\MavenRepositories\mysql\mysql-connector-java\5.1.31\mysql-connector-java-5.1.31.jar" />
+            location="/Users/jeng/.m2/repository/mysql/mysql-connector-java/5.1.31/mysql-connector-java-5.1.31.jar" />
+
     <context id="context1"
-             targetRuntime="com.udfex.framework.mybatis.generator.context.IntrospectedTableMyBatis3ImplExt">
+             targetRuntime="com.xmomen.maven.plugins.mybatis.generator.context.IntrospectedTableMyBatis3ImplExt">
 
-        <plugin type="com.udfex.framework.mybatis.generator.plugins.ModelAnnotationPlugin" />
-        <plugin type="com.udfex.framework.mybatis.generator.plugins.ModelExamplePlugin" />
-        <plugin type="com.udfex.framework.mybatis.generator.plugins.MapperGeneratorPlugin" />
-        <plugin type="com.udfex.framework.mybatis.generator.plugins.MapperSqlMapGeneratorPlugin" />
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
-        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
-        <plugin type="com.udfex.framework.mybatis.generator.plugins.PrimaryKeyGeneratorPlugin" />
-        <!--<plugin type="org.mybatis.generator.plugins.CachePlugin"/>-->
 
+        <plugin type="com.xmomen.maven.plugins.mybatis.generator.plugins.ModelAnnotationPlugin" />
+        <plugin type="com.xmomen.maven.plugins.mybatis.generator.plugins.MapperGeneratorPlugin">
+            <property name="rootInterface" value="com.xmomen.framework.mybatis.mapper.MybatisMapper"/>
+        </plugin>
+        <plugin type="com.xmomen.maven.plugins.mybatis.generator.plugins.ModelExamplePlugin" >
+            <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisExample" />
+        </plugin>
+        <plugin type="com.xmomen.maven.plugins.mybatis.generator.plugins.MapperSqlMapGeneratorPlugin" />
+        <plugin type="com.xmomen.maven.plugins.mybatis.generator.plugins.PrimaryKeyGeneratorPlugin" />
         <commentGenerator>
             <property name="suppressAllComments" value="true" />
             <property name="suppressDate" value="true" />
@@ -25,21 +27,20 @@
                         connectionURL="jdbc:mysql://192.168.8.200:3306/demo?useUnicode=true&amp;characterEncoding=UTF-8"
                         userId="dev" password="dev" />
 
-        <javaTypeResolver type="com.udfex.framework.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
+        <javaTypeResolver type="com.xmomen.maven.plugins.mybatis.generator.plugins.types.JavaTypeResolverDefaultImplExt"></javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.udfex.test.mybatis.model"
-                            targetProject=".\src\test\java" >
-            <property name="rootClass" value="com.udfex.framework.mybatis.model.BaseMybatisModel" />
+        <javaModelGenerator targetPackage="com.xmomen.demo.entity"
+                            targetProject="./src/test/java" >
+            <property name="rootClass" value="com.xmomen.framework.mybatis.model.BaseMybatisModel" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.udfex.test.mybatis.mapper"
-                         targetProject=".\src\test\resources" />
-        <javaClientGenerator targetPackage="com.udfex.test.mybatis.mapper"
-                            targetProject=".\src\test\java" type="XMLMAPPER" >
+        <sqlMapGenerator targetPackage="com.xmomen.demo.entity.mapper"
+                         targetProject="./src/test/resources" />
+        <javaClientGenerator targetPackage="com.xmomen.demo.entity.mapper"
+                             targetProject="./src/test/java" type="XMLMAPPER" >
         </javaClientGenerator>
-
-        <table schema="demo" tableName="t_department" />
-        <table schema="demo" tableName="t_employee" />
+        <table tableName="t_department" />
+        <table tableName="t_employee" />
 
     </context>
 </generatorConfiguration>

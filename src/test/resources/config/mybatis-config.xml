@@ -22,7 +22,7 @@
 	</settings>
 
 	<plugins>
-		<plugin interceptor="com.udfex.framework.mybatis.page.PageInterceptor">
+		<plugin interceptor="com.xmomen.framework.mybatis.page.PageInterceptor">
 			<property name="dialect" value="mysql"/>
 		</plugin>
 	</plugins>

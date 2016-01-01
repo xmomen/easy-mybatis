@@ -8,19 +8,19 @@
 		<property name="dataSource" ref="dataSource" />
 		<!--	扫描实体类	-->
 		<property name="typeAliasesPackage" value="
-			com.udfex.framework.mybatis.model,
-			com.udfex.test.mybatis.model
+			com.xmomen.framework.mybatis.model,
+			com.xmomen.test.mybatis.model
 			" />
 		<!--	mybatis-config文件路径	-->
 		<property name="configLocation" value="classpath:config/mybatis-config.xml" />
 		<!--	扫描mapper.xml文件	-->
-		<property name="mapperLocations" value="classpath*:com/udfex/**/mapper/**/*.xml" />
+		<property name="mapperLocations" value="classpath*:com/xmomen/**/mapper/**/*.xml" />
 	</bean>
 
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
-	<bean id="mybatisDao" class="com.udfex.framework.mybatis.dao.impl.MybatisDaoImpl">
+	<bean id="mybatisDao" class="com.xmomen.framework.mybatis.dao.impl.MybatisDaoImpl">
 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
 	</bean>
 
@@ -28,9 +28,9 @@
 	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<!--	扫描基础包路径（多基础包路径用;分隔）	-->
 		<property name="basePackage" value="
-			com.udfex.framework.mybatis.mapper;
-			com.udfex.test.mybatis.mapper" />
-		<property name="markerInterface" value="com.udfex.framework.mybatis.mapper.MybatisMapper" />
+			com.xmomen.framework.mybatis.mapper;
+			com.xmomen.test.mybatis.mapper" />
+		<property name="markerInterface" value="com.xmomen.framework.mybatis.mapper.MybatisMapper" />
 		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"/>
 	</bean>
 

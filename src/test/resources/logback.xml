@@ -5,16 +5,16 @@
     <!--  Define the storage location of the log files. (勿在LogBack里面使用相对路径)                                                                        -->
     <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
     <property name="LOG_LEVEL" value="DEBUG"/>
-    <property name="LOG_HOME" value="D://logs" />
+    <property name="LOG_HOME" value="./target/logs" />
     <property name="PROJECT_NAME" value="${PROJECT_NAME}"/>
     <property name="EMAIL_ACTIVE" value="false"/>
     <property name="PROFILE_ENV" value="dev"/>
     <property name="ONLY_SQL" value="false"/>
-    <property name="LOG_MAIL_SMTP_HOST" value="mail.udfex.com"/>
-    <property name="LOG_MAIL_FROM" value="robot@udfex.com"/>
-    <property name="LOG_MAIL_TO" value="system_alert@udfex.com"/>
-    <property name="LOG_MAIL_USERNAME" value="robot@udfex.com"/>
-    <property name="LOG_MAIL_PASSWORD" value="rbt35816922"/>
+    <!--<property name="LOG_MAIL_SMTP_HOST" value="mail.udfex.com"/>-->
+    <!--<property name="LOG_MAIL_FROM" value="robot@udfex.com"/>-->
+    <!--<property name="LOG_MAIL_TO" value="system_alert@udfex.com"/>-->
+    <!--<property name="LOG_MAIL_USERNAME" value="robot@udfex.com"/>-->
+    <!--<property name="LOG_MAIL_PASSWORD" value="rbt35816922"/>-->
 
     <!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
     <!--  Console output                                                                                                        -->
