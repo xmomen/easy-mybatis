@@ -179,6 +179,7 @@ public class MybatisDaoTest extends BaseSpringTest {
         int num = 10;
         List<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < num; i++) {
+            tEmployee.settEmployeeId(null);
             TEmployee result = mybatisDao.insertByModel(tEmployee);
             list.add(result.gettEmployeeId());
         }
@@ -191,6 +192,7 @@ public class MybatisDaoTest extends BaseSpringTest {
         int num = 10;
         List<TEmployee> list = new ArrayList<TEmployee>();
         for (int i = 0; i < num; i++) {
+            tEmployee.settEmployeeId(null);
             list.add(mybatisDao.insertByModel(tEmployee));
         }
         int rowCount = mybatisDao.deleteAllByModel(list);
@@ -201,6 +203,7 @@ public class MybatisDaoTest extends BaseSpringTest {
     public void testDeleteByExample() throws Exception {
         int num = 0;
         for (int i = 0; i < 10; i++) {
+            tEmployee.settEmployeeId(null);
             int row = mybatisDao.insert(tEmployee);
             num += row;
         }
@@ -282,6 +285,7 @@ public class MybatisDaoTest extends BaseSpringTest {
     public void testSelectByExample() throws Exception {
         int rowCount = 0;
         for (int i = 0; i < 10; i++) {
+            tEmployee.settEmployeeId(null);
             int row = mybatisDao.insert(tEmployee);
             rowCount += row;
         }
@@ -303,10 +307,10 @@ public class MybatisDaoTest extends BaseSpringTest {
         int num = 2;
         int size = 5;
         for (int i = 0; i < 10; i++) {
-            int row = mybatisDao.insert(tEmployee);
+            TEmployee tEmployee1 = createEmployee();
+            int row = mybatisDao.insert(tEmployee1);
             total += row;
         }
-        tEmployee.setBirthday(null);
         PageModel page = mybatisDao.selectPageByModel(tEmployee, size, num);
         Assert.assertEquals("总页数不正确", total / size, page.getPageInfo().getPages());
         Assert.assertEquals("页码不正确", num, page.getPageInfo().getPageNum());
@@ -382,6 +386,7 @@ public class MybatisDaoTest extends BaseSpringTest {
     public void testSaveAllByModel() throws Exception {
         List<TEmployee> list = new ArrayList<TEmployee>();
         for (int i = 0; i < 10; i++) {
+            tEmployee.settEmployeeId(null);
             TEmployee result = mybatisDao.insertByModel(tEmployee);
             list.add(result);
         }

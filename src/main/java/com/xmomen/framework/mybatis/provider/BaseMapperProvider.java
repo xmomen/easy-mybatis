@@ -132,7 +132,7 @@ public class BaseMapperProvider {
                 primaryKeyFieldSpec = currentModelFieldSpec;
                 continue;
             }
-            if(recVersionFieldName.equals(currentModelFieldSpec.getFieldName())){
+            if(recVersionFieldName != null && recVersionFieldName.equals(currentModelFieldSpec.getFieldName())){
                 recVerFieldSpec = currentModelFieldSpec;
                 continue;
             }
