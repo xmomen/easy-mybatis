@@ -2,7 +2,7 @@ package com.xmomen.framework.mybatis.dao;
 
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
-import com.xmomen.framework.mybatis.page.PageModel;
+import com.xmomen.framework.mybatis.page.Page;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
@@ -227,7 +227,7 @@ public interface MybatisDao {
 	 * @param <MODEL>
 	 * @return
 	 */
-	public <MODEL extends BaseMybatisModel> PageModel<MODEL> selectPageByModel(MODEL model, Integer pageSize, Integer pageNum);
+	public <MODEL extends BaseMybatisModel> Page<MODEL> selectPageByModel(MODEL model, Integer pageSize, Integer pageNum);
 
 	/**
 	 * 根据Example进行单表分页查询<br/>
@@ -237,7 +237,7 @@ public interface MybatisDao {
 	 * @param <EXAMPLE>
 	 * @return
 	 */
-	public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> PageModel<MODEL> selectPageByExample(EXAMPLE model, Integer pageSize, Integer pageNum);
+	public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> Page<MODEL> selectPageByExample(EXAMPLE model, Integer pageSize, Integer pageNum);
 
 	/**
 	 * 根据Object进行多表分页查询<br/>
@@ -247,7 +247,7 @@ public interface MybatisDao {
 	 * @param pageInfo
 	 * @return
 	 */
-	public PageModel<?> selectPage(String mapperId, Object object, Integer pageSize, Integer pageNum);
+	public Page<?> selectPage(String mapperId, Object object, Integer pageSize, Integer pageNum);
 
 	/**
 	 * 根据model更新匹配数据，并返回影响行数（必须包含主键，若字段中存在版本号则条件中必须包含版本号）<br/>

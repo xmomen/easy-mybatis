@@ -7,7 +7,7 @@ import com.xmomen.demo.entity.TEmployee;
 import com.xmomen.demo.entity.TEmployeeExample;
 import com.xmomen.framework.exception.InvalidParameterException;
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
-import com.xmomen.framework.mybatis.page.PageModel;
+import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.framework.utils.StringUtilsExt;
 import com.xmomen.test.BaseSpringTest;
@@ -311,14 +311,14 @@ public class MybatisDaoTest extends BaseSpringTest {
             int row = mybatisDao.insert(tEmployee1);
             total += row;
         }
-        PageModel page = mybatisDao.selectPageByModel(tEmployee, size, num);
-        Assert.assertEquals("总页数不正确", total / size, page.getPageInfo().getPages());
-        Assert.assertEquals("页码不正确", num, page.getPageInfo().getPageNum());
-        Assert.assertEquals("总记录数不正确", total, page.getPageInfo().getTotal());
-        Assert.assertEquals("页码大小不正确", size, page.getPageInfo().getPageSize());
-        Assert.assertEquals("当前页开始记录数不正确", (num > 0 ? (num - 1) * size : 0), page.getPageInfo().getStartRow());
-        Assert.assertEquals("当前页最后一条记录数不正确", num * size, page.getPageInfo().getEndRow());
-        Assert.assertEquals("结果集分页数量不正确", size, page.getData().size());
+        Page page = mybatisDao.selectPageByModel(tEmployee, size, num);
+        Assert.assertEquals("总页数不正确", total / size, page.getPages());
+        Assert.assertEquals("页码不正确", num, page.getPageNum());
+        Assert.assertEquals("总记录数不正确", total, page.getTotal());
+        Assert.assertEquals("页码大小不正确", size, page.getPageSize());
+        Assert.assertEquals("当前页开始记录数不正确", (num > 0 ? (num - 1) * size : 0), page.getStartRow());
+        Assert.assertEquals("当前页最后一条记录数不正确", num * size, page.getEndRow());
+        Assert.assertEquals("结果集分页数量不正确", size, page.getResult().size());
     }
 
     @Test
@@ -331,14 +331,14 @@ public class MybatisDaoTest extends BaseSpringTest {
             int row = mybatisDao.insert(tEmployee1);
             total += row;
         }
-        PageModel page = mybatisDao.selectPageByExample(tEmployeeExample, size, num);
-        Assert.assertEquals("总页数不正确", total/size, page.getPageInfo().getPages());
-        Assert.assertEquals("页码不正确", num, page.getPageInfo().getPageNum());
-        Assert.assertEquals("总记录数不正确", total, page.getPageInfo().getTotal());
-        Assert.assertEquals("页码大小不正确", size, page.getPageInfo().getPageSize());
-        Assert.assertEquals("当前页开始记录数不正确", (num > 0 ? (num - 1) * size : 0), page.getPageInfo().getStartRow());
-        Assert.assertEquals("当前页最后一条记录数不正确", num * size, page.getPageInfo().getEndRow());
-        Assert.assertEquals("结果集分页数量不正确", size, page.getData().size());
+        Page page = mybatisDao.selectPageByExample(tEmployeeExample, size, num);
+        Assert.assertEquals("总页数不正确", total/size, page.getPages());
+        Assert.assertEquals("页码不正确", num, page.getPageNum());
+        Assert.assertEquals("总记录数不正确", total, page.getTotal());
+        Assert.assertEquals("页码大小不正确", size, page.getPageSize());
+        Assert.assertEquals("当前页开始记录数不正确", (num > 0 ? (num - 1) * size : 0), page.getStartRow());
+        Assert.assertEquals("当前页最后一条记录数不正确", num * size, page.getEndRow());
+        Assert.assertEquals("结果集分页数量不正确", size, page.getResult().size());
     }
 
     @Test

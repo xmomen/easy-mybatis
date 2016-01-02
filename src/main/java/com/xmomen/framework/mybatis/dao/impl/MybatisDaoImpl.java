@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.xmomen.framework.mybatis.mapper.MybatisMapper;
-import com.xmomen.framework.mybatis.page.PageModel;
+import com.xmomen.framework.mybatis.page.Page;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionException;
@@ -22,7 +22,6 @@ import com.xmomen.framework.model.BaseModel;
 import com.xmomen.framework.mybatis.dao.MybatisDao;
 import com.xmomen.framework.mybatis.model.BaseMybatisExample;
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
-import com.xmomen.framework.mybatis.page.PageFormat;
 import com.xmomen.framework.mybatis.page.PageInterceptor;
 import com.xmomen.framework.mybatis.utils.ModelUtils;
 import com.xmomen.framework.support.SpringContextUtil;
@@ -276,7 +275,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
     }
 
     @Override
-    public <MODEL extends BaseMybatisModel> PageModel<MODEL> selectPageByModel(MODEL model, Integer pageSize, Integer pageNum) {
+    public <MODEL extends BaseMybatisModel> Page<MODEL> selectPageByModel(MODEL model, Integer pageSize, Integer pageNum) {
         AssertExt.isInvalidParameter(null == model, "Parameter model is require and can't support null object to be selectPageByModel(), but found: " + model);
         AssertExt.isInvalidParameter(null == pageSize, "Parameter pageSize is require and can't support null object to be selectPageByModel(), but found parameter pageSize: " + pageSize);
         AssertExt.isInvalidParameter(null == pageNum, "Parameter pageNum is require and can't support null object to be selectPageByModel(), but found parameter pageNum: " + pageNum);
@@ -285,11 +284,11 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
                         " but found parameter pageSize: " + pageSize + ", pageNum: " + pageNum);
         PageInterceptor.startPage(pageNum, pageSize);
         selectByModel(model);
-        return PageFormat.dataFormat(PageInterceptor.endPage());
+        return PageInterceptor.endPage();
     }
 
     @Override
-    public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> PageModel<MODEL> selectPageByExample(EXAMPLE example, Integer pageSize, Integer pageNum) {
+    public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> Page<MODEL> selectPageByExample(EXAMPLE example, Integer pageSize, Integer pageNum) {
         AssertExt.isInvalidParameter(null == example,
                 "Parameter model is require and can't support null object to be selectPageByExample(), but found: " + example);
         AssertExt.isInvalidParameter(null == pageSize,
@@ -301,11 +300,11 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
                         " but found parameter pageInfo of pageSize: " + pageSize + ", pageNum: " + pageNum);
         PageInterceptor.startPage(pageNum, pageSize);
         selectByExample(example);
-        return PageFormat.dataFormat(PageInterceptor.endPage());
+        return PageInterceptor.endPage();
     }
 
     @Override
-    public PageModel<?> selectPage(String mapperId, Object object, Integer pageSize, Integer pageNum) {
+    public Page<?> selectPage(String mapperId, Object object, Integer pageSize, Integer pageNum) {
         AssertExt.isInvalidParameter(null == object,
                 "Parameter model is require and can't support null object to be selectPage(), but found: " + object);
         AssertExt.isInvalidParameter(null == pageSize,
@@ -317,7 +316,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
                         " but found parameter pageInfo of pageSize: " + pageSize + ", pageNum: " + pageNum);
         PageInterceptor.startPage(pageNum, pageSize);
         getSqlSessionTemplate().selectList(mapperId, object);
-        return PageFormat.dataFormat(PageInterceptor.endPage());
+        return PageInterceptor.endPage();
     }
 
     @Override
