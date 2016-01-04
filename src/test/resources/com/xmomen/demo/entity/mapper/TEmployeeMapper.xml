@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xmomen.demo.entity.mapper.TEmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.xmomen.demo.entity.TEmployee" >
+    <id column="T_EMPLOYEE_ID" property="tEmployeeId" jdbcType="INTEGER" />
+    <result column="T_DEPARTMENT_ID" property="tDepartmentId" jdbcType="INTEGER" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="AGE" property="age" jdbcType="INTEGER" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="RECORD_VERSION" property="recordVersion" jdbcType="INTEGER" />
+    <result column="CREATE_USER_CODE" property="createUserCode" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE_TIME" property="createDateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME_ZONE" property="createTimeZone" jdbcType="VARCHAR" />
+    <result column="UPDATE_USER_CODE" property="updateUserCode" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE_TIME" property="updateDateTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME_ZONE" property="updateTimeZone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    T_EMPLOYEE_ID, T_DEPARTMENT_ID, NAME, AGE, BIRTHDAY, RECORD_VERSION, CREATE_USER_CODE, 
+    CREATE_DATE_TIME, CREATE_TIME_ZONE, UPDATE_USER_CODE, UPDATE_DATE_TIME, UPDATE_TIME_ZONE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xmomen.demo.entity.TEmployeeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.xmomen.demo.entity.TEmployeeExample" >
+    delete from t_employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insertSelective" parameterType="com.xmomen.demo.entity.TEmployee" useGeneratedKeys="true" keyProperty="tEmployeeId" keyColumn="T_EMPLOYEE_ID" >
+    insert into t_employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tEmployeeId != null" >
+        T_EMPLOYEE_ID,
+      </if>
+      <if test="tDepartmentId != null" >
+        T_DEPARTMENT_ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="age != null" >
+        AGE,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="recordVersion != null" >
+        RECORD_VERSION,
+      </if>
+      <if test="createUserCode != null" >
+        CREATE_USER_CODE,
+      </if>
+      <if test="createDateTime != null" >
+        CREATE_DATE_TIME,
+      </if>
+      <if test="createTimeZone != null" >
+        CREATE_TIME_ZONE,
+      </if>
+      <if test="updateUserCode != null" >
+        UPDATE_USER_CODE,
+      </if>
+      <if test="updateDateTime != null" >
+        UPDATE_DATE_TIME,
+      </if>
+      <if test="updateTimeZone != null" >
+        UPDATE_TIME_ZONE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tEmployeeId != null" >
+        #{tEmployeeId,jdbcType=INTEGER},
+      </if>
+      <if test="tDepartmentId != null" >
+        #{tDepartmentId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordVersion != null" >
+        #{recordVersion,jdbcType=INTEGER},
+      </if>
+      <if test="createUserCode != null" >
+        #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createDateTime != null" >
+        #{createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTimeZone != null" >
+        #{createTimeZone,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserCode != null" >
+        #{updateUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDateTime != null" >
+        #{updateDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTimeZone != null" >
+        #{updateTimeZone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xmomen.demo.entity.TEmployeeExample" resultType="java.lang.Integer" >
+    select count(*) from t_employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_employee
+    <set >
+      <if test="record.tEmployeeId != null" >
+        T_EMPLOYEE_ID = #{record.tEmployeeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.tDepartmentId != null" >
+        T_DEPARTMENT_ID = #{record.tDepartmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        AGE = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.birthday != null" >
+        BIRTHDAY = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recordVersion != null" >
+        RECORD_VERSION = #{record.recordVersion,jdbcType=INTEGER},
+      </if>
+      <if test="record.createUserCode != null" >
+        CREATE_USER_CODE = #{record.createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDateTime != null" >
+        CREATE_DATE_TIME = #{record.createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTimeZone != null" >
+        CREATE_TIME_ZONE = #{record.createTimeZone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUserCode != null" >
+        UPDATE_USER_CODE = #{record.updateUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDateTime != null" >
+        UPDATE_DATE_TIME = #{record.updateDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTimeZone != null" >
+        UPDATE_TIME_ZONE = #{record.updateTimeZone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

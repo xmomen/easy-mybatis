@@ -1,8 +1,6 @@
 package com.xmomen.framework.mybatis.page;
 
 import org.apache.ibatis.session.RowBounds;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.ArrayList;
