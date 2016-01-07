@@ -37,7 +37,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
     }
 
     @Override
-    public Integer getPrimaryKey() {
+    public Serializable getPrimaryKey() {
         return this.getSqlSessionTemplate().selectOne(SQL_MAPPER_BASE_NAMESPACE + "SELECT_INCREMENT_PK");
     }
 
@@ -357,7 +357,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
     @Override
     public <MODEL extends BaseMybatisModel> MODEL updateByModel(MODEL model) {
         update(model);
-        Integer primaryKey = (Integer) ModelUtils.getPrimaryKeyValue(model);
+        Serializable primaryKey = ModelUtils.getPrimaryKeyValue(model);
         return (MODEL) selectByPrimaryKey(model.getClass(),primaryKey);
     }
 
@@ -405,7 +405,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
     @Override
     public <MODEL extends BaseMybatisModel> MODEL saveByModel(MODEL model) {
         save(model);
-        Integer primaryKey = (Integer) ModelUtils.getPrimaryKeyValue(model);
+        Serializable primaryKey = ModelUtils.getPrimaryKeyValue(model);
         return (MODEL) selectByPrimaryKey(model.getClass(), primaryKey);
     }
 

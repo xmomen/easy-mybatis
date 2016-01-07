@@ -26,7 +26,7 @@ public interface MybatisDao {
 	 * 获取最新插入的主键
 	 * @return
 	 */
-	public Integer getPrimaryKey();
+	public Serializable getPrimaryKey();
 
 	/**
 	 * 获取数据库系统时间对应GMT
