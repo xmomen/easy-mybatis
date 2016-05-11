@@ -15,7 +15,7 @@ import java.util.List;
  * mybatisDao通用接口
  */
 public interface MybatisDao {
-	
+
 	/**
 	 * 获取mybatis原生接口
 	 * @return
@@ -244,7 +244,8 @@ public interface MybatisDao {
 	 * 注：pageInfo属性对象不能为null，且pageInfo对象的pageSize，pageNum必须大于0
 	 * @param mapperId
 	 * @param object
-	 * @param pageInfo
+	 * @param pageSize
+	 * @param pageNum
 	 * @return
 	 */
 	public Page<?> selectPage(String mapperId, Object object, Integer pageSize, Integer pageNum);

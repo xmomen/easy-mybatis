@@ -5,7 +5,7 @@ package com.xmomen.framework.exception;
  * @author Jeng
  * @date 2014年3月30日 下午7:34:35
  */
-public class BusinessException extends BaseException {
+public class BusinessException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

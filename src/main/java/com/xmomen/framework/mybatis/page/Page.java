@@ -8,10 +8,7 @@ import java.util.List;
 
 /**
  * Mybatis - 分页对象
- *
- * @author liuzh/abel533/isea533
- * @version 3.2.1
- * @url http://git.oschina.net/free/Mybatis_PageHelper
+ * @param <E>
  */
 public class Page<E> extends ArrayList<E> implements Serializable {
     /**
