@@ -30,6 +30,8 @@
 		</property>
 	</bean>
 
+	<bean id="springContextUtil" class="com.xmomen.framework.support.SpringContextUtil" />
+
 	<import resource="classpath:config/spring-jdbc.xml" />
 	<import resource="classpath:config/spring-mybatis.xml" />
 

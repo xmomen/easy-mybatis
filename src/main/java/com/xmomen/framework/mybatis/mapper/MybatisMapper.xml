@@ -3,7 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
-<mapper namespace="com.xmomen.framework.mybatis.mapper.BaseMybatisMapper">
+<mapper namespace="com.xmomen.framework.mybatis.mapper.MybatisMapper">
+
+	<resultMap id="BaseResultMap" type="java.util.HashMap" />
 
 	<!--	查询最新的自增长主键	-->
 	<select id="SELECT_INCREMENT_PK" resultType="java.lang.Integer">

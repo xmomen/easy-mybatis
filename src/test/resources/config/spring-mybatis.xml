@@ -30,7 +30,6 @@
 		<property name="basePackage" value="
 			com.xmomen.framework.mybatis.mapper;
 			com.xmomen.demo.entity.mapper" />
-		<property name="markerInterface" value="com.xmomen.framework.mybatis.mapper.MybatisMapper" />
 		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate"/>
 	</bean>
 

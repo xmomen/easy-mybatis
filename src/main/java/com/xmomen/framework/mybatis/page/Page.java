@@ -16,6 +16,7 @@ public class Page<E> extends ArrayList<E> implements Serializable {
      */
     public static final int NO_SQL_COUNT = -1;
     public static final int SQL_COUNT = 0;
+    private PageInfo pageInfo;
     private int pageNum;//当前页
     private int pageSize;//每页条数
     private int startRow;//当前页首条记录的行数
@@ -45,6 +46,14 @@ public class Page<E> extends ArrayList<E> implements Serializable {
         //RowBounds方式默认不求count总数，如果想求count,可以修改这里为SQL_COUNT
         this.total = total;
         this.endRow = this.startRow + this.pageSize;
+    }
+
+    public PageInfo getPageInfo() {
+        return pageInfo;
+    }
+
+    public void setPageInfo(PageInfo pageInfo) {
+        this.pageInfo = pageInfo;
     }
 
     public List<E> getResult() {

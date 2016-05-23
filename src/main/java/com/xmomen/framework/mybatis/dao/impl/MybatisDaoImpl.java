@@ -32,7 +32,7 @@ import com.xmomen.framework.utils.AssertExt;
  */
 public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
 
-    private static final String SQL_MAPPER_BASE_NAMESPACE = "com.xmomen.framework.mybatis.mapper.BaseMybatisMapper.";
+    private static final String SQL_MAPPER_BASE_NAMESPACE = "com.xmomen.framework.mybatis.mapper.MybatisMapper.";
 
     /**
      * 获取mybatis原生接口
