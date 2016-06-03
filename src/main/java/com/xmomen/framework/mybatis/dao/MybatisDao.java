@@ -26,12 +26,14 @@ public interface MybatisDao {
 	 * 获取最新插入的主键
 	 * @return
 	 */
+	@Deprecated
 	public Serializable getPrimaryKey();
 
 	/**
 	 * 获取数据库系统时间对应GMT
 	 * @return
 	 */
+	@Deprecated
 	public Date getGMTDate();
 
 	/**

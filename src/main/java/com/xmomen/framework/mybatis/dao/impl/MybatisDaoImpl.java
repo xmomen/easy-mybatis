@@ -241,9 +241,9 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
 
     /**
      * 根据model集合删除匹配的数据，并返回影响行数
-     * @param model 实体类参数对象s
+     * @param models 实体类参数对象s
      * @param <MODEL> 泛型类对象为 BaseMybatisModel
-     * @return
+     * @return 影响行数
      */
     @Override
     public <MODEL extends BaseMybatisModel> int deleteAllByModel(Collection<MODEL> models) {
