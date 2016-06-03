@@ -43,7 +43,7 @@ public class MD5Utils extends BaseUtils {
      * 按加密次数加密
      * @param str        加密字符串
      * @param salt       加密盐值
-     * @param encryptNum 加密次数：<= 0 不加密
+     * @param encryptNum 加密次数：小于等于0则不加密
      * @return
      */
     public static String encrypt(String str, String salt, int encryptNum){

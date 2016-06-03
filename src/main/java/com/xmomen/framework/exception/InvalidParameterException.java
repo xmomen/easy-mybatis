@@ -6,29 +6,35 @@ package com.xmomen.framework.exception;
 public class InvalidParameterException extends RuntimeException {
 
     /**
-     * Creates a new GroupException object.
+     * Creates a new InvalidParameterException object.
      */
     public InvalidParameterException() {
         super();
     }
 
     /**
-     * @param message
+     * Constructs a new invalid parameter exception with the specified detail message.
+     * @param message exception message
      */
     public InvalidParameterException(final String message) {
         super(message);
     }
 
     /**
-     * @param message
-     * @param cause
+     * Constructs a new invalid parameter exception with the specified detail message and cause.
+     * @param message exception message
+     * @param cause exception cause
      */
     public InvalidParameterException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param cause
+     * Constructs a new invalid parameter exception with the specified cause and a
+     * detail message of <tt>(cause==null ? null : cause.toString())</tt>
+     * (which typically contains the class and detail message of
+     * <tt>cause</tt>).
+     * @param cause exception cause
      */
     public InvalidParameterException(final Throwable cause) {
         super(cause);

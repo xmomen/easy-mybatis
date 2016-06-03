@@ -22,7 +22,7 @@ public class Base64Utils {
     /**
      * base64加密
      * @param str 加密字符
-     * @param num 加密次数(num <= 0 不加密)
+     * @param num 加密次数(num 小于等于 0 不加密)
      * @return
      */
     public static String encoder(String str,int num){

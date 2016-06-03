@@ -78,7 +78,6 @@ public class DateUtils {
     /**
      * Format the Date using pattern "yyyyMMdd"
      *
-     * @param date
      * @return
      */
     public static String getDateString() {
@@ -88,8 +87,6 @@ public class DateUtils {
 
     /**
      * Format the Date using pattern "yyyyMMddHHmmssSSS"
-     *
-     * @param date
      * @return
      */
     public static String getDateTimeString() {
@@ -211,17 +208,16 @@ public class DateUtils {
     }
 
     /**
-     * 获取当前GMT时间
-     *
-     * @param time
+     * 获取日期对应的GMT时间
+     * @param nowdate
      * @return
      */
     @SuppressWarnings("unused")
-    public static Date getCurrentGMTDate() {
+    public static Date getCurrentGMTDate(Date nowdate) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dateFormat.setTimeZone(new SimpleTimeZone(0, "GMT"));
         try {
-            return parseDateTime(dateFormat.format(new Date()));
+            return parseDateTime(dateFormat.format(nowdate));
         } catch (ParseException e) {
             logger.error("获取当前GMT日期转换异常", e.getCause());
             e.printStackTrace();

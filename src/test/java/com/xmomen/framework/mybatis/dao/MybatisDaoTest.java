@@ -20,13 +20,27 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MybatisDaoTest extends BaseSpringTest {
+@RunWith(value = SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:config/spring-core.xml"})
+@Transactional
+@TransactionConfiguration(transactionManager = "transactionManager")
+public class MybatisDaoTest  extends AbstractTransactionalJUnit4SpringContextTests {
+
+    @Autowired
+    public MybatisDao mybatisDao;
 
     TEmployee tEmployee;
     TEmployeeExample tEmployeeExample;
@@ -62,7 +76,7 @@ public class MybatisDaoTest extends BaseSpringTest {
     }
 
     private static TEmployee createEmployee() throws ParseException {
-        String name = "测试Name";
+        String name = "测试人";
         Integer age = 18;
         Date birthday = DateUtils.parseDate("1989-02-12");
         TEmployee tEmployee = new TEmployee();
@@ -111,17 +125,16 @@ public class MybatisDaoTest extends BaseSpringTest {
 
     @Test
     public void testCountByExample() throws Exception {
-        String prefix = "测试";
-        String name = String.valueOf(RandomUtils.nextInt());
+        String name = "testCountByExample";
         int result = 0;
         for (int i = 0; i < 5; i++) {
             TDepartment tDepartment = new TDepartment();
-            tDepartment.setName(prefix+name);
+            tDepartment.setName(name);
             int row = mybatisDao.insert(tDepartment);
             result+=row;
         }
         TDepartmentExample example = new TDepartmentExample();
-        example.createCriteria().andNameLike(prefix+"%");
+        example.createCriteria().andNameLike(name+"%");
         int i = mybatisDao.countByExample(example);
         Assert.assertEquals(result, i);
     }
@@ -179,8 +192,8 @@ public class MybatisDaoTest extends BaseSpringTest {
         int num = 10;
         List<Integer> list = new ArrayList<Integer>();
         for (int i = 0; i < num; i++) {
-            tEmployee.settEmployeeId(null);
-            TEmployee result = mybatisDao.insertByModel(tEmployee);
+            TEmployee tEmployee1 = createEmployee();
+            TEmployee result = mybatisDao.insertByModel(tEmployee1);
             list.add(result.gettEmployeeId());
         }
         int i = mybatisDao.deleteAllByPrimaryKey(TEmployee.class, list);
@@ -192,8 +205,9 @@ public class MybatisDaoTest extends BaseSpringTest {
         int num = 10;
         List<TEmployee> list = new ArrayList<TEmployee>();
         for (int i = 0; i < num; i++) {
-            tEmployee.settEmployeeId(null);
-            list.add(mybatisDao.insertByModel(tEmployee));
+            TEmployee tEmployee1 = createEmployee();
+            TEmployee result = mybatisDao.insertByModel(tEmployee1);
+            list.add(result);
         }
         int rowCount = mybatisDao.deleteAllByModel(list);
         Assert.assertEquals(num, rowCount);
@@ -202,11 +216,15 @@ public class MybatisDaoTest extends BaseSpringTest {
     @Test
     public void testDeleteByExample() throws Exception {
         int num = 0;
+        String name = "testDeleteByExample";
         for (int i = 0; i < 10; i++) {
-            tEmployee.settEmployeeId(null);
-            int row = mybatisDao.insert(tEmployee);
+            TEmployee tEmployee1 = createEmployee();
+            tEmployee1.setName(name);
+            int row = mybatisDao.insert(tEmployee1);
             num += row;
         }
+        TEmployeeExample tEmployeeExample = new TEmployeeExample();
+        tEmployeeExample.createCriteria().andNameEqualTo(name);
         int rowCount = mybatisDao.deleteByExample(tEmployeeExample);
         Assert.assertEquals(num, rowCount);
     }
@@ -250,9 +268,7 @@ public class MybatisDaoTest extends BaseSpringTest {
                 public void run() {
                     TEmployee result = new TEmployee();
                     result.setName(StringUtilsExt.getUUID(8));
-                    System.out.println("save: " + JSONObject.toJSONString(result));
                     result = mybatisDao.saveByModel(result);
-                    System.out.println("Result: " + JSONObject.toJSONString(result.gettEmployeeId()));
                 }
             });
         }
@@ -284,19 +300,28 @@ public class MybatisDaoTest extends BaseSpringTest {
     @Test
     public void testSelectByExample() throws Exception {
         int rowCount = 0;
+        String name = "testSelectByExample";
         for (int i = 0; i < 10; i++) {
-            tEmployee.settEmployeeId(null);
-            int row = mybatisDao.insert(tEmployee);
+            TEmployee tEmployee1 = createEmployee();
+            tEmployee1.setName(name);
+            int row = mybatisDao.insert(tEmployee1);
             rowCount += row;
         }
+        TEmployeeExample tEmployeeExample = new TEmployeeExample();
+        tEmployeeExample.createCriteria().andNameEqualTo(name);
         List<TEmployee> results = mybatisDao.selectByExample(tEmployeeExample);
         Assert.assertEquals(rowCount, results.size());
-        Assert.assertEquals(tEmployee.getName(), results.get(0).getName());
+        Assert.assertEquals(name, results.get(0).getName());
     }
 
     @Test
     public void testSelectOneByExample() throws Exception {
+        String name = StringUtilsExt.getUUID(10);
+        TEmployee tEmployee = createEmployee();
+        tEmployee.setName(name);
         tEmployee = mybatisDao.insertByModel(tEmployee);
+        TEmployeeExample tEmployeeExample = new TEmployeeExample();
+        tEmployeeExample.createCriteria().andNameEqualTo(name);
         TEmployee result = mybatisDao.selectOneByExample(tEmployeeExample);
         Assert.assertEquals(tEmployee.getName(), result.getName());
     }
@@ -306,11 +331,15 @@ public class MybatisDaoTest extends BaseSpringTest {
         int total = 0;
         int num = 2;
         int size = 5;
+        String name = "testSelectPageByModel";
         for (int i = 0; i < 10; i++) {
             TEmployee tEmployee1 = createEmployee();
+            tEmployee1.setName(name);
             int row = mybatisDao.insert(tEmployee1);
             total += row;
         }
+        TEmployee tEmployee = new TEmployee();
+        tEmployee.setName(name);
         Page page = mybatisDao.selectPageByModel(tEmployee, size, num);
         Assert.assertEquals("总页数不正确", total / size, page.getPages());
         Assert.assertEquals("页码不正确", num, page.getPageNum());
@@ -326,11 +355,15 @@ public class MybatisDaoTest extends BaseSpringTest {
         int total = 0;
         int num = 2;
         int size = 5;
+        String name = "testSelectPageByExample";
         for (int i = 0; i < 10; i++) {
             TEmployee tEmployee1 = createEmployee();
+            tEmployee1.setName(name);
             int row = mybatisDao.insert(tEmployee1);
             total += row;
         }
+        TEmployeeExample tEmployeeExample = new TEmployeeExample();
+        tEmployeeExample.createCriteria().andNameEqualTo(name);
         Page page = mybatisDao.selectPageByExample(tEmployeeExample, size, num);
         Assert.assertEquals("总页数不正确", total/size, page.getPages());
         Assert.assertEquals("页码不正确", num, page.getPageNum());
@@ -405,7 +438,12 @@ public class MybatisDaoTest extends BaseSpringTest {
 
     @Test
     public void testUpdateOneByExampleSelective() throws Exception {
+        String name = StringUtilsExt.getUUID(10);
+        TEmployee tEmployee = createEmployee();
+        tEmployee.setName(name);
         tEmployee = mybatisDao.insertByModel(tEmployee);
+        TEmployeeExample tEmployeeExample = new TEmployeeExample();
+        tEmployeeExample.createCriteria().andNameEqualTo(name);
         /*tEmployee.settEmployeeId(null);
         tEmployee = mybatisDao.insertByModel(tEmployee);*/
         tEmployee.setName("更新成功");

@@ -27,37 +27,67 @@ import com.xmomen.framework.mybatis.utils.ModelUtils;
 import com.xmomen.framework.support.SpringContextUtil;
 import com.xmomen.framework.utils.AssertExt;
 
+/**
+ * mybatisDao 默认实现类
+ */
 public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
 
-    private static final String SQL_MAPPER_BASE_NAMESPACE = "com.xmomen.framework.mybatis.mapper.BaseMybatisMapper.";
+    private static final String SQL_MAPPER_BASE_NAMESPACE = "com.xmomen.framework.mybatis.mapper.MybatisMapper.";
 
+    /**
+     * 获取mybatis原生接口
+     * @return
+     */
     @Override
     public SqlSession getSqlSessionTemplate() {
         return getSqlSession();
     }
 
+    /**
+     * 获取最新插入的主键
+     * @return
+     */
     @Override
     public Serializable getPrimaryKey() {
         return this.getSqlSessionTemplate().selectOne(SQL_MAPPER_BASE_NAMESPACE + "SELECT_INCREMENT_PK");
     }
 
+    /**
+     * 获取数据库系统时间对应GMT
+     * @return
+     */
     @Override
     public Date getGMTDate() {
         return this.getSqlSessionTemplate().selectOne(SQL_MAPPER_BASE_NAMESPACE + "SELECT_GMT");
     }
 
+    /**
+     * 获取数据库系统时间
+     * @return
+     */
     @Override
     public Date getSysdate() {
-        // this.getSqlSessionTemplate().selectOne(SQL_MAPPER_BASE_NAMESPACE + "SELECT_SYSDATE");
-        return getGMTDate();
+        return this.getSqlSessionTemplate().selectOne(SQL_MAPPER_BASE_NAMESPACE + "SELECT_SYSDATE");
     }
 
+    /**
+     * 统计匹配model的总记录数
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> int countByModel(MODEL model) {
         AssertExt.isNullParameter(model);
         return getMybatisMapper(model.getClass()).countByModel(model);
     }
 
+    /**
+     * 统计匹配example的总记录数
+     * @param paramExample
+     * @param <EXAMPLE>
+     * @return
+     */
     @Override
     public <EXAMPLE extends BaseMybatisExample> int countByExample(EXAMPLE paramExample) {
         AssertExt.isNullParameter(paramExample);
@@ -91,30 +121,60 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return integer;
     }
 
+    /**
+     * 根据model类和主键判断是否存在的匹配数据
+     * @param paramClass
+     * @param paramSerializable
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> boolean existByPrimaryKey(@Param("modelClass") Class<MODEL> paramClass, @Param("primaryKey") Serializable paramSerializable) {
         AssertExt.isNullParameter(paramSerializable);
-        int rowCount = getMybatisMapper(paramClass).existByPrimaryKey(paramClass,paramSerializable);
+        int rowCount = getMybatisMapper(paramClass).existByPrimaryKey(paramClass, paramSerializable);
         return rowCount == 1 ? true : false;
     }
 
+    /**
+     * 根据model判断是否存在匹配的数据
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> boolean existByModel(MODEL model) {
         int resultCount = countByModel(model);
         return resultCount > 0 ? true : false;
     }
 
+    /**
+     * 根据example判断是否存在匹配的数据
+     * @param paramExample
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisExample> boolean existByExample(MODEL paramExample) {
         int resultCount = countByExample(paramExample);
         return resultCount > 0 ? true : false;
     }
 
+    /**
+     * 根据 SQL 判断是否存在匹配的数据
+     * @param mapperId
+     * @return
+     */
     @Override
     public boolean exist(String mapperId) {
         return exist(mapperId, null);
     }
 
+    /**
+     * 根据 SQL 判断是否存在匹配的数据
+     * @param mapperId
+     * @param object
+     * @return
+     */
     @Override
     public boolean exist(String mapperId, Object object) {
         List result = getSqlSessionTemplate().selectList(mapperId, object);
@@ -124,6 +184,13 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return false;
     }
 
+    /**
+     * 根据model类和主键删除匹配的数据，并返回影响行数
+     * @param paramClass
+     * @param primaryKey
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> int deleteByPrimaryKey(@Param("modelClass") Class<MODEL> paramClass, @Param("primaryKey") Serializable primaryKey) {
         int rowCount = 0;
@@ -136,6 +203,13 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return rowCount;
     }
 
+    /**
+     * 根据model删除匹配的数据，并返回影响行数<br/>
+     * 注：执行删除操作的model对象中主键值不能为空，为空则可能造成批量删除的情况，已造成数据丢失
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> int delete(MODEL model) {
         int rowCount = 0;
@@ -148,6 +222,13 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return rowCount;
     }
 
+    /**
+     * 根据model类和主键集合值删除匹配的数据，并返回影响行数
+     * @param paramClass
+     * @param ids
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> int deleteAllByPrimaryKey(Class<MODEL> paramClass, Collection<? extends Serializable> ids) {
         int row = 0;
@@ -158,6 +239,12 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return row;
     }
 
+    /**
+     * 根据model集合删除匹配的数据，并返回影响行数
+     * @param model 实体类参数对象s
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> int deleteAllByModel(Collection<MODEL> models) {
         int row = 0;
@@ -169,12 +256,24 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return row;
     }
 
+    /**
+     * 根据example删除匹配的数据，并返回影响行数
+     * @param paramExample
+     * @param <EXAMPLE>
+     * @return
+     */
     @Override
     public <EXAMPLE extends BaseMybatisExample> int deleteByExample(EXAMPLE paramExample) {
         AssertExt.isNullParameter(paramExample);
         return getMybatisMapperByExample(paramExample.getClass()).deleteByExample(paramExample);
     }
 
+    /**
+     * 根据model新增记录，并返回影响行数
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> int insert(MODEL model) {
         AssertExt.isNullParameter(model);
@@ -221,6 +320,12 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return getMybatisMapper(model.getClass()).insertSelective(model);
     }
 
+    /**
+     * 根据model新增记录，并返回新增后的数据
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> MODEL insertByModel(MODEL model) {
         int rowCount = insert(model);
@@ -235,18 +340,37 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         //return model;
     }
 
+    /**
+     * 根据model类和主键查询匹配的数据
+     * @param paramClass
+     * @param primaryKey
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> MODEL selectByPrimaryKey(@Param("modelClass") Class<MODEL> paramClass, @Param("primaryKey") Serializable primaryKey) {
         AssertExt.isNullParameter(primaryKey);
-        return getMybatisMapper(paramClass).selectByPrimaryKey(paramClass,primaryKey);
+        return getMybatisMapper(paramClass).selectByPrimaryKey(paramClass, primaryKey);
     }
 
+    /**
+     * 根据model查询匹配的数据结果集
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> List<MODEL> selectByModel(MODEL model) {
         AssertExt.isNullParameter(model);
         return getMybatisMapper(model.getClass()).selectByModel(model);
     }
 
+    /**
+     * 根据model查询匹配的唯一数据（出现多个则报异常）
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> MODEL selectOneByModel(MODEL model) {
         List<MODEL> resultList = selectByModel(model);
@@ -257,12 +381,26 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return (MODEL) AssertExt.isTrueLoose(1 == resultList.size(), resultList.get(0));
     }
 
+    /**
+     * 根据example查询匹配的结果集
+     * @param paramExample
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @param <EXAMPLE>
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> List<MODEL> selectByExample(EXAMPLE paramExample) {
         AssertExt.isNullParameter(paramExample);
         return getMybatisMapperByExample(paramExample.getClass()).selectByExample(paramExample);
     }
 
+    /**
+     * 根据example查询匹配的唯一数据（出现多个则报异常）
+     * @param paramExample
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @param <EXAMPLE>
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> MODEL selectOneByExample(EXAMPLE paramExample) {
         List<MODEL> resultList = selectByExample(paramExample);
@@ -274,6 +412,15 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return (MODEL) AssertExt.isTrueLoose(1 == resultList.size(), resultList.get(0));
     }
 
+    /**
+     * 根据model进行单表分页查询<br/>
+     * 注：example对象的pageInfo属性对象不能为null，且pageInfo对象的pageSize，pageNum必须大于0
+     * @param model 实体类参数对象
+     * @param pageSize
+     * @param pageNum
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> Page<MODEL> selectPageByModel(MODEL model, Integer pageSize, Integer pageNum) {
         AssertExt.isInvalidParameter(null == model, "Parameter model is require and can't support null object to be selectPageByModel(), but found: " + model);
@@ -287,6 +434,16 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return PageInterceptor.endPage();
     }
 
+    /**
+     *  根据Example进行单表分页查询<br/>
+     * 注：example对象的pageInfo属性对象不能为null，且pageInfo对象的pageSize，pageNum必须大于0
+     * @param example
+     * @param pageSize
+     * @param pageNum
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @param <EXAMPLE>
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> Page<MODEL> selectPageByExample(EXAMPLE example, Integer pageSize, Integer pageNum) {
         AssertExt.isInvalidParameter(null == example,
@@ -303,6 +460,15 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return PageInterceptor.endPage();
     }
 
+    /**
+     * 根据Object进行多表分页查询<br/>
+     * 注：pageInfo属性对象不能为null，且pageInfo对象的pageSize，pageNum必须大于0
+     * @param mapperId
+     * @param object
+     * @param pageSize
+     * @param pageNum
+     * @return
+     */
     @Override
     public Page<?> selectPage(String mapperId, Object object, Integer pageSize, Integer pageNum) {
         AssertExt.isInvalidParameter(null == object,
@@ -319,6 +485,13 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return PageInterceptor.endPage();
     }
 
+    /**
+     * 根据model更新匹配数据，并返回影响行数（必须包含主键，若字段中存在版本号则条件中必须包含版本号）<br/>
+     * 注：包含主键的原因是为了避免因误操作的原因批量更新数据，导致数据大量丢失的情况
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> int update(MODEL model) {
         AssertExt.isNullParameter(model);
@@ -350,22 +523,30 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
             e.printStackTrace();
         }
         int updateCount = getMybatisMapper(model.getClass()).update(model);
-        AssertExt.isInvalidResult(1 > updateCount,  "Row was updated by another transaction (or unsaved-value mapping was incorrect)");
+        AssertExt.isInvalidResult(1 > updateCount, "Row was updated by another transaction (or unsaved-value mapping was incorrect)");
 		return (Integer) AssertExt.isTrueLoose(1 == updateCount, updateCount);
     }
 
+    /**
+     * 根据model更新匹配数据，并返回更新后的数据（必须包含主键，若字段中存在版本号则条件中必须包含版本号）<br/>
+     * 注：包含主键的原因是为了避免因误操作的原因批量更新数据，导致数据大量丢失的情况
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> MODEL updateByModel(MODEL model) {
         update(model);
         Serializable primaryKey = ModelUtils.getPrimaryKeyValue(model);
-        return (MODEL) selectByPrimaryKey(model.getClass(),primaryKey);
+        return (MODEL) selectByPrimaryKey(model.getClass(), primaryKey);
     }
 
     /**
      * 根据example条件将model更新到数据库中（此操作很可能会导致批量更新的情况出现，建议在完善之前废弃）
-     *
-     * @param model
-     * @param example
+     * @param model 实体类参数对象
+     * @param paramExample
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @param <EXAMPLE>
      * @return
      */
     @Override
@@ -375,6 +556,16 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return getMybatisMapperByExample(paramExample.getClass()).updateByExampleSelective(model, paramExample);
     }
 
+    /**
+     * 根据example条件将model更新到数据库中
+     * 注：1.单条数据操作，所更新条件所查询的数据必须为1，否则事务失败
+     * 	   2.此方法主要用于通过业务主键更新数据
+     * @param model 实体类参数对象
+     * @param paramExample
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @param <EXAMPLE>
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> int updateOneByExampleSelective(@Param("record") MODEL model, @Param("example") EXAMPLE paramExample) {
         AssertExt.isNullParameter(model);
@@ -385,6 +576,15 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return updateByExampleSelective(model, paramExample);
     }
 
+    /**
+     * 根据model删除,更新或新增数据，并返回受影响行数<br/>
+     * 注：	1.根据rowState判断是否为执行删除/更新/新增操作
+     * 		2.若主键有值，且数据库中存在匹配数据则进行更新操作  TODO 此处需要考虑是否根据版本号进行匹配
+     * 		2.若主键值为空，则进行新增操作
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> int save(MODEL model) {
         AssertExt.isNullParameter(model);
@@ -392,7 +592,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
             return delete(model);
         }
         Serializable idValue = ModelUtils.getPrimaryKeyValue(model);
-        if(idValue == null){
+        if(idValue == null) {
             return insert(model);
         }
         boolean isExists = existByPrimaryKey(model.getClass(), idValue);
@@ -402,6 +602,15 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return insert(model);
     }
 
+    /**
+     * 根据model删除，更新或新增数据，并返回更新后或新增的数据<br/>
+     * 注：	1.根据rowState判断是否为执行删除/更新/新增操作
+     * 		2.若主键有值，且数据库中存在匹配数据则进行更新操作  TODO 此处需要考虑是否根据版本号进行匹配
+     * 		2.若主键值为空，则进行新增操作
+     * @param model 实体类参数对象
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> MODEL saveByModel(MODEL model) {
         save(model);
@@ -409,6 +618,15 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         return (MODEL) selectByPrimaryKey(model.getClass(), primaryKey);
     }
 
+    /**
+     * 根据model批量删除，更新或新增数据，并返回更新后或新增的数据<br/>
+     * 注：	1.根据rowState判断是否为执行删除/更新/新增操作
+     * 		2.若主键有值，且数据库中存在匹配数据则进行更新操作  TODO 此处需要考虑是否根据版本号进行匹配
+     * 		2.若主键值为空，则进行新增操作
+     * @param model 实体类参数对象s
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
+     * @return
+     */
     @Override
     public <MODEL extends BaseMybatisModel> List<MODEL> saveAllByModel(Collection<MODEL> models) {
         AssertExt.isNullParameter(models);
@@ -441,8 +659,8 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
 
     /**
      * 根据model类获取相应mapper
-     * @param modelClass
-     * @param <MODEL>
+     * @param model 实体类参数对象Class
+     * @param <MODEL> 泛型类对象为 BaseMybatisModel
      * @return
      */
     private <MODEL extends BaseMybatisModel> MybatisMapper getMybatisMapper(Class<MODEL> modelClass) {

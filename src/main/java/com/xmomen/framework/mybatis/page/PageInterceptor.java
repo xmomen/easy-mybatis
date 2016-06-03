@@ -14,10 +14,6 @@ import java.util.Properties;
 
 /**
  * Mybatis - 通用分页拦截器
- *
- * @author liuzh/abel533/isea533
- * @version 3.2.1
- * @url http://git.oschina.net/free/Mybatis_PageHelper
  */
 @Intercepts({
         @Signature(type = Executor.class,
@@ -248,6 +244,14 @@ public class PageInterceptor implements Interceptor {
 
     public static Page endPage() {
         Page page = localPage.get();
+        PageInfo pageInfo = new PageInfo();
+        pageInfo.setEndRow(page.getEndRow());
+        pageInfo.setStartRow(page.getStartRow());
+        pageInfo.setPageNum(page.getPageNum());
+        pageInfo.setPageSize(page.getPageSize());
+        pageInfo.setPages(page.getPages());
+        pageInfo.setTotal(page.getTotal());
+        page.setPageInfo(pageInfo);
         localPage.remove();
         return page;
     }

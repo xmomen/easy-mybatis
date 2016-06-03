@@ -49,7 +49,7 @@ public class AssertExt extends Assert {
 
     /**
      * 预期一个null的参数对象，抛出{@code InvalidParameterException}
-     * @param expression
+     * @param object
      * @param message
      */
     public static void isNullParameter(Object object, String message) {
@@ -60,7 +60,7 @@ public class AssertExt extends Assert {
 
     /**
      * 预期一个null的参数对象，抛出默认信息
-     * @param expression
+     * @param object
      */
     public static void isNullParameter(Object object) {
         isNullParameter(object, "Parameter object must be not null");

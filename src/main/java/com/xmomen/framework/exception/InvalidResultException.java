@@ -6,29 +6,35 @@ package com.xmomen.framework.exception;
 public class InvalidResultException extends RuntimeException {
 
     /**
-     * Creates a new GroupException object.
+     * Creates a new InvalidResultException object.
      */
     public InvalidResultException() {
         super();
     }
 
     /**
-     * @param message
+     * Constructs a new invalid result exception with the specified detail message.
+     * @param message exception message
      */
     public InvalidResultException(final String message) {
         super(message);
     }
 
     /**
-     * @param message
-     * @param cause
+     * Constructs a new invalid parameter exception with the specified detail message and cause.
+     * @param message exception message
+     * @param cause exception cause
      */
     public InvalidResultException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param cause
+     * Constructs a new invalid result exception with the specified cause and a
+     * detail message of <tt>(cause==null ? null : cause.toString())</tt>
+     * (which typically contains the class and detail message of
+     * <tt>cause</tt>).
+     * @param cause exception cause
      */
     public InvalidResultException(final Throwable cause) {
         super(cause);

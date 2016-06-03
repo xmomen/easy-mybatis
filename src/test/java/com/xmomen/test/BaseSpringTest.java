@@ -9,13 +9,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by jengt_000 on 2015/1/1.
  */
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:config/spring-core.xml"})
-@TransactionConfiguration(defaultRollback = true)
+@Transactional
+@TransactionConfiguration(transactionManager = "transactionManager")
 public class BaseSpringTest extends AbstractTransactionalJUnit4SpringContextTests {
 
     @Autowired

@@ -15,7 +15,7 @@ import java.util.List;
  * mybatisDao通用接口
  */
 public interface MybatisDao {
-	
+
 	/**
 	 * 获取mybatis原生接口
 	 * @return
@@ -124,7 +124,7 @@ public interface MybatisDao {
 			@Param(BaseMybatisModel.PRIMARY_KEY) Serializable primaryKey);
 
 	/**
-	 * 根据model删除匹配的数据，并返回影响行数<br/>
+	 * 根据model删除匹配的数据，并返回影响行数
 	 * 注：执行删除操作的model对象中主键值不能为空，为空则可能造成批量删除的情况，已造成数据丢失
 	 * @param model
 	 * @param <MODEL>
@@ -221,7 +221,7 @@ public interface MybatisDao {
 	public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> MODEL selectOneByExample(EXAMPLE example);
 
 	/**
-	 * 根据model进行单表分页查询<br/>
+	 * 根据model进行单表分页查询
 	 * 注：example对象的pageInfo属性对象不能为null，且pageInfo对象的pageSize，pageNum必须大于0
 	 * @param model
 	 * @param <MODEL>
@@ -230,7 +230,7 @@ public interface MybatisDao {
 	public <MODEL extends BaseMybatisModel> Page<MODEL> selectPageByModel(MODEL model, Integer pageSize, Integer pageNum);
 
 	/**
-	 * 根据Example进行单表分页查询<br/>
+	 * 根据Example进行单表分页查询
 	 * 注：example对象的pageInfo属性对象不能为null，且pageInfo对象的pageSize，pageNum必须大于0
 	 * @param model
 	 * @param <MODEL>
@@ -240,17 +240,18 @@ public interface MybatisDao {
 	public <MODEL extends BaseMybatisModel, EXAMPLE extends BaseMybatisExample> Page<MODEL> selectPageByExample(EXAMPLE model, Integer pageSize, Integer pageNum);
 
 	/**
-	 * 根据Object进行多表分页查询<br/>
+	 * 根据Object进行多表分页查询
 	 * 注：pageInfo属性对象不能为null，且pageInfo对象的pageSize，pageNum必须大于0
 	 * @param mapperId
 	 * @param object
-	 * @param pageInfo
+	 * @param pageSize
+	 * @param pageNum
 	 * @return
 	 */
 	public Page<?> selectPage(String mapperId, Object object, Integer pageSize, Integer pageNum);
 
 	/**
-	 * 根据model更新匹配数据，并返回影响行数（必须包含主键，若字段中存在版本号则条件中必须包含版本号）<br/>
+	 * 根据model更新匹配数据，并返回影响行数（必须包含主键，若字段中存在版本号则条件中必须包含版本号）
 	 * 注：包含主键的原因是为了避免因误操作的原因批量更新数据，导致数据大量丢失的情况
 	 * @param model
 	 * @param <MODEL>
@@ -259,7 +260,7 @@ public interface MybatisDao {
 	public <MODEL extends BaseMybatisModel> int update(MODEL model);
 
 	/**
-	 * 根据model更新匹配数据，并返回更新后的数据（必须包含主键，若字段中存在版本号则条件中必须包含版本号）<br/>
+	 * 根据model更新匹配数据，并返回更新后的数据（必须包含主键，若字段中存在版本号则条件中必须包含版本号）
 	 * 注：包含主键的原因是为了避免因误操作的原因批量更新数据，导致数据大量丢失的情况
 	 * @param model
 	 * @param <MODEL>
@@ -295,7 +296,7 @@ public interface MybatisDao {
 			@Param("example") EXAMPLE example);
 
 	/**
-	 * 根据model删除,更新或新增数据，并返回受影响行数<br/>
+	 * 根据model删除,更新或新增数据，并返回受影响行数
 	 * 注：	1.根据rowState判断是否为执行删除/更新/新增操作
 	 * 		2.若主键有值，且数据库中存在匹配数据则进行更新操作  TODO 此处需要考虑是否根据版本号进行匹配
 	 * 		2.若主键值为空，则进行新增操作
@@ -306,7 +307,7 @@ public interface MybatisDao {
 	public <MODEL extends BaseMybatisModel> int save(MODEL model);
 
 	/**
-	 * 根据model删除，更新或新增数据，并返回更新后或新增的数据<br/>
+	 * 根据model删除，更新或新增数据，并返回更新后或新增的数据
 	 * 注：	1.根据rowState判断是否为执行删除/更新/新增操作
 	 * 		2.若主键有值，且数据库中存在匹配数据则进行更新操作  TODO 此处需要考虑是否根据版本号进行匹配
 	 * 		2.若主键值为空，则进行新增操作
@@ -317,7 +318,7 @@ public interface MybatisDao {
 	public <MODEL extends BaseMybatisModel> MODEL saveByModel(MODEL model);
 
 	/**
-	 * 根据model批量删除，更新或新增数据，并返回更新后或新增的数据<br/>
+	 * 根据model批量删除，更新或新增数据，并返回更新后或新增的数据
 	 * 注：	1.根据rowState判断是否为执行删除/更新/新增操作
 	 * 		2.若主键有值，且数据库中存在匹配数据则进行更新操作  TODO 此处需要考虑是否根据版本号进行匹配
 	 * 		2.若主键值为空，则进行新增操作
