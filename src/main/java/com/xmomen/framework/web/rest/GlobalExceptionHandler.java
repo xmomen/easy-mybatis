@@ -2,12 +2,14 @@ package com.xmomen.framework.web.rest;
 
 import com.xmomen.framework.web.exceptions.ArgumentValidException;
 import com.xmomen.framework.web.exceptions.NotFoundResourcesException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,6 +65,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             error.setRejectedValue(fieldError.getRejectedValue());
             error.setObjectName(fieldError.getObjectName());
             fieldErrorList.add(error);
+        }
+        if(!CollectionUtils.isEmpty(fieldErrorList)){
+            FieldError fieldError = fieldErrorList.get(0);
+            if(StringUtils.trimToNull(fieldError.getField()) != null && StringUtils.trimToNull(fieldError.getMessage()) != null ){
+                restError.setMessage(fieldError.getField()+fieldError.getMessage());
+            }
         }
         restError.setErrors(fieldErrorList);
         return new ResponseEntity<RestError>(restError, HttpStatus.BAD_REQUEST);
