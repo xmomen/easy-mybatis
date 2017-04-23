@@ -36,6 +36,7 @@ public class MybatisType {
 
     static {
         javaTypeMap.put("String", "VARCHAR");
+        javaTypeMap.put("Boolean", "BIT");
         javaTypeMap.put("Date", "TIMESTAMP");
         javaTypeMap.put("Long", "DECIMAL");
         javaTypeMap.put("Integer", "DECIMAL");

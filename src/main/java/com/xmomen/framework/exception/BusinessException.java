@@ -1,22 +1,23 @@
 package com.xmomen.framework.exception;
 
 /**
- * Created by jengt_000 on 2014/12/27.
+ * business logic exception
+ * Created by tanxinzheng on 16/10/22.
  */
-public class InvalidResultException extends RuntimeException {
+public class BusinessException extends Exception {
 
     /**
-     * Creates a new InvalidResultException object.
+     * Creates a new BusinessException object.
      */
-    public InvalidResultException() {
+    public BusinessException() {
         super();
     }
 
     /**
-     * Constructs a new invalid result exception with the specified detail message.
+     * Constructs a new invalid parameter exception with the specified detail message.
      * @param message exception message
      */
-    public InvalidResultException(final String message) {
+    public BusinessException(final String message) {
         super(message);
     }
 
@@ -25,18 +26,18 @@ public class InvalidResultException extends RuntimeException {
      * @param message exception message
      * @param cause exception cause
      */
-    public InvalidResultException(final String message, final Throwable cause) {
+    public BusinessException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * Constructs a new invalid result exception with the specified cause and a
+     * Constructs a new invalid parameter exception with the specified cause and a
      * detail message of <tt>(cause==null ? null : cause.toString())</tt>
      * (which typically contains the class and detail message of
      * <tt>cause</tt>).
      * @param cause exception cause
      */
-    public InvalidResultException(final Throwable cause) {
+    public BusinessException(final Throwable cause) {
         super(cause);
     }
 }

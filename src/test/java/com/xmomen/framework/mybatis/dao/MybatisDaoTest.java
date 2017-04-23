@@ -1,16 +1,13 @@
 package com.xmomen.framework.mybatis.dao;
 
-import com.alibaba.fastjson.JSONObject;
 import com.xmomen.demo.entity.TDepartment;
 import com.xmomen.demo.entity.TDepartmentExample;
 import com.xmomen.demo.entity.TEmployee;
 import com.xmomen.demo.entity.TEmployeeExample;
-import com.xmomen.framework.exception.InvalidParameterException;
 import com.xmomen.framework.mybatis.model.BaseMybatisModel;
 import com.xmomen.framework.mybatis.page.Page;
 import com.xmomen.framework.utils.DateUtils;
 import com.xmomen.framework.utils.StringUtilsExt;
-import com.xmomen.test.BaseSpringTest;
 import com.xmomen.test.ConcurrencyTestUtil;
 import junit.framework.Assert;
 import org.apache.commons.lang.math.RandomUtils;
@@ -237,7 +234,7 @@ public class MybatisDaoTest  extends AbstractTransactionalJUnit4SpringContextTes
 
     @Test
     public void testInsertExpectedException() throws Exception {
-        expectedException.expect(InvalidParameterException.class);
+        expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Parameter object must be not null");
         mybatisDao.insert(null);
     }

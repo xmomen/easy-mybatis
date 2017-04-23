@@ -1,12 +1,11 @@
 package com.xmomen.framework.utils;
 
-import com.xmomen.framework.exception.InvalidParameterException;
-import com.xmomen.framework.exception.InvalidResultException;
 import org.springframework.util.Assert;
 
 /**
  * Created by jengt_000 on 2015/1/16.
  */
+@Deprecated
 public class AssertExt extends Assert {
 
     /**
@@ -16,7 +15,7 @@ public class AssertExt extends Assert {
      */
     public static void isInvalidResult(boolean expression, String message) {
         if (expression) {
-            throw new InvalidResultException(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
@@ -29,13 +28,13 @@ public class AssertExt extends Assert {
     }
 
     /**
-     * 预期一个无效的参数，抛出{@code InvalidParameterException}
+     * 预期一个无效的参数，抛出{@code IllegalArgumentException}
      * @param expression
      * @param message
      */
     public static void isInvalidParameter(boolean expression, String message) {
         if (expression) {
-            throw new InvalidParameterException(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
@@ -48,13 +47,13 @@ public class AssertExt extends Assert {
     }
 
     /**
-     * 预期一个null的参数对象，抛出{@code InvalidParameterException}
+     * 预期一个null的参数对象，抛出{@code IllegalArgumentException}
      * @param object
      * @param message
      */
     public static void isNullParameter(Object object, String message) {
         if (null == object) {
-            throw new InvalidParameterException(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
@@ -99,7 +98,7 @@ public class AssertExt extends Assert {
         if(expression){
             return object;
         }
-        throw new InvalidResultException(message);
+        throw new IllegalArgumentException(message);
     }
 
 }

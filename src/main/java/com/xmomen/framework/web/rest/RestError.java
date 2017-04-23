@@ -83,4 +83,5 @@ public class RestError {
     public void setErrors(List<FieldError> errors) {
         this.errors = errors;
     }
+
 }

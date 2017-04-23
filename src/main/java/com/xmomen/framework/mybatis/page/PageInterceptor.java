@@ -28,7 +28,6 @@ public class PageInterceptor implements Interceptor {
         return localPage.get();
     }
 
-
     public static void remove() {
         localPage.remove();
     }
@@ -145,7 +144,7 @@ public class PageInterceptor implements Interceptor {
      * @param page
      * @return
      */
-    private String getPageSql(String sql, Page page) {
+    private static String getPageSql(String sql, Page page) {
         StringBuilder pageSql = new StringBuilder(200);
         if ("mysql".equals(dialect)) {
             pageSql.append(sql);
@@ -162,7 +161,7 @@ public class PageInterceptor implements Interceptor {
         return pageSql.toString();
     }
 
-    private class BoundSqlSqlSource implements SqlSource {
+    private static class BoundSqlSqlSource implements SqlSource {
         BoundSql boundSql;
 
         public BoundSqlSqlSource(BoundSql boundSql) {

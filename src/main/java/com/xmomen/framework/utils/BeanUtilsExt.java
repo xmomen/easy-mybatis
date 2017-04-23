@@ -5,6 +5,7 @@ import org.springframework.beans.BeanUtils;
 /**
  * Created by Jeng on 2015/4/18.
  */
+@Deprecated
 public class BeanUtilsExt extends BeanUtils {
 
     /**

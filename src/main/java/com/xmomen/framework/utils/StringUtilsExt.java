@@ -9,6 +9,7 @@ import java.util.UUID;
 /**
  * Created by Jeng on 2015/4/16.
  */
+@Deprecated
 public class StringUtilsExt extends StringUtils {
 
     /**

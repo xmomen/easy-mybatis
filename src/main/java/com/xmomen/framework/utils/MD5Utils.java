@@ -11,7 +11,8 @@ import java.util.Random;
 /**
  * MD5工具类
  */
-public class MD5Utils extends BaseUtils {
+@Deprecated
+public class MD5Utils {
 
     private static final Logger log = LoggerFactory.getLogger(MD5Utils.class);
 

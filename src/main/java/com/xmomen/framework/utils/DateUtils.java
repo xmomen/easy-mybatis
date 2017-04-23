@@ -15,6 +15,7 @@ import java.util.SimpleTimeZone;
  *
  * @author jeng
  */
+@Deprecated
 public class DateUtils {
 
     private static Logger logger = LoggerFactory.getLogger(DateUtils.class);

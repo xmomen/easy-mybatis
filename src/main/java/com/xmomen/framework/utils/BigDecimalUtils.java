@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 /**
  * Created by Jeng on 2015/6/18.
  */
+@Deprecated
 public class BigDecimalUtils {
 
     public static boolean isMoreThanZero(BigDecimal decimal) {

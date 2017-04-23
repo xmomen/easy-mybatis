@@ -310,6 +310,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
                     }
                 }
             }
+            return getMybatisMapper(model.getClass()).insertSelective(model);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -317,7 +318,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
-        return getMybatisMapper(model.getClass()).insertSelective(model);
+        return 0;
     }
 
     /**
@@ -328,6 +329,7 @@ public class MybatisDaoImpl extends SqlSessionDaoSupport implements MybatisDao {
      */
     @Override
     public <MODEL extends BaseMybatisModel> MODEL insertByModel(MODEL model) {
+
         int rowCount = insert(model);
 
         AssertExt.isInvalidResult(rowCount != 1, "Expected 1 lines affected result to be returned by insertByModel(), but found: " + rowCount + " line affected");

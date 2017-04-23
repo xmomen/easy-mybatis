@@ -5,6 +5,7 @@ import java.util.Random;
 /**
  * Created by Jeng on 2015/4/4.
  */
+@Deprecated
 public class RandomUtils {
 
     public static final String allChar = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

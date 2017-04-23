@@ -8,7 +8,17 @@ import java.io.IOException;
 /**
  * Created by Jeng on 2015/6/19.
  */
+@Deprecated
 public class Base64Utils {
+
+    private static Base64Utils instance;
+
+    public static Base64Utils getInstance() {
+        if(instance == null){
+            instance = new Base64Utils();
+        }
+        return instance;
+    }
 
     /**
      * base64加密(默认加密次数为1次)
