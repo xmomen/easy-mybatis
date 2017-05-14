@@ -7,6 +7,7 @@ import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -214,8 +215,15 @@ public class RestExceptionHandler {
      */
     private String resolveLocalizedErrorMessage(org.springframework.validation.FieldError fieldError) {
         Locale currentLocale =  LocaleContextHolder.getLocale();
-        String localizedErrorMessage = messageSource.getMessage(fieldError.getCode(), fieldError.getArguments(), currentLocale);
-
+        String localizedErrorMessage = null;
+        if(messageSource != null){
+            try {
+                localizedErrorMessage = messageSource.getMessage(fieldError.getCode(), fieldError.getArguments(), currentLocale);
+            }catch (NoSuchMessageException noSuchMessageException){
+                logger.debug(noSuchMessageException);
+                noSuchMessageException.printStackTrace();
+            }
+        }
         //If the message was not found, return the most accurate field error code instead.
         //You can remove this check if you prefer to get the default error message.
         if (localizedErrorMessage.equals(fieldError.getDefaultMessage())) {
