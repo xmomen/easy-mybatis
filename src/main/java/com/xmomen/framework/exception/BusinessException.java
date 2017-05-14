@@ -4,7 +4,7 @@ package com.xmomen.framework.exception;
  * business logic exception
  * Created by tanxinzheng on 16/10/22.
  */
-public class BusinessException extends Exception {
+public class BusinessException extends RuntimeException {
 
     /**
      * Creates a new BusinessException object.
